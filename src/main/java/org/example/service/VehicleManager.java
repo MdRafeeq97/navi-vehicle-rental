@@ -4,12 +4,12 @@ import org.example.enums.VehicleType;
 import org.example.models.Branch;
 import org.example.models.Slot;
 import org.example.models.Vehicle;
-import utils.CommonUtils;
+import org.example.utils.CommonUtils;
 
 import java.util.*;
 import java.util.stream.Collectors;
 
-import static utils.CommonUtils.isSlotAvailable;
+import static org.example.utils.CommonUtils.isSlotAvailable;
 
 public class VehicleManager {
     private final BranchManager branchManager;

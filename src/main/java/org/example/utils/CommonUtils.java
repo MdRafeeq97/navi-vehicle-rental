@@ -1,4 +1,4 @@
-package utils;
+package org.example.utils;
 
 import org.example.enums.VehicleType;
 import org.example.models.Slot;
