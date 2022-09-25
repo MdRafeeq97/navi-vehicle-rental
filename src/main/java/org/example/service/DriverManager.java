@@ -1,6 +1,8 @@
 package org.example.service;
 
 import java.io.*;
+import java.net.URISyntaxException;
+import java.net.URL;
 import java.util.List;
 import java.util.Objects;
 
@@ -22,8 +24,13 @@ public class DriverManager {
         this.vehicleManager = new VehicleManager(this.branchManager);
     }
 
-    public void readInputFile(String filePath) throws IOException {
-        File file = new File(filePath);
+    public void readInputFile(String fileName) throws IOException, URISyntaxException {
+        URL resource = getClass().getClassLoader().getResource(fileName);
+        if (resource == null) {
+            throw new IllegalArgumentException("file not found!");
+        }
+
+        File file = new File(resource.toURI());
         BufferedReader br = new BufferedReader(new FileReader(file));
         String line;
         while ((line = br.readLine()) != null) {
@@ -39,7 +46,7 @@ public class DriverManager {
                 case ADD_BRANCH:
                     vehicles = input[2].split(",");
                     boolean res = branchManager.addBranch(branchId, vehicles);
-                    System.out.println(line+" "+res);
+                    System.out.println(res);
                     break;
 
                 case ADD_VEHICLE:
@@ -47,7 +54,7 @@ public class DriverManager {
                     String vehicleId = input[3];
                     Integer price = Integer.parseInt(input[4]);
                     res = vehicleManager.addVehicle(branchId, vehicleType, vehicleId, price);
-                    System.out.println(line+" "+res);
+                    System.out.println(res);
                     break;
 
                 case BOOK:
@@ -55,14 +62,14 @@ public class DriverManager {
                     int startTime = Integer.parseInt(input[3]);
                     int endTime = Integer.parseInt(input[4]);
                     int totalPrice = vehicleManager.bookVehicle(branchId, vehicleType, startTime, endTime);
-                    System.out.println(line+" "+totalPrice);
+                    System.out.println(totalPrice);
                     break;
 
                 case DISPLAY_VEHICLES:
                     startTime = Integer.parseInt(input[2]);
                     endTime = Integer.parseInt(input[3]);
                     List<String> availableVehicles = vehicleManager.displayVehicles(branchId, startTime, endTime);
-                    System.out.println(line+" "+String.join(",", availableVehicles));
+                    System.out.println(String.join(",", availableVehicles));
                     break;
 
                 default:
