@@ -2,7 +2,7 @@ package org.example.service;
 
 import org.example.enums.VehicleType;
 import org.example.models.Branch;
-import utils.CommonUtils;
+import org.example.utils.CommonUtils;
 
 import java.util.*;
 
