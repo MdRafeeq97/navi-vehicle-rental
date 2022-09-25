@@ -9,7 +9,14 @@ import java.util.*;
 public class BranchManager {
     private final Map<String, Branch> branchMap = new HashMap<>();
 
+    /***
+     * Add a branch to DB/memory store
+     * @param branchId
+     * @param vehicleTypes
+     * @return
+     */
     public boolean addBranch(String branchId, String[] vehicleTypes) {
+        //check if branch with given Id already exists
         if(branchMap.containsKey(branchId)) {
             return false;
         }

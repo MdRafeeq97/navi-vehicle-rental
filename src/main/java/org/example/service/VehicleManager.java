@@ -34,11 +34,13 @@ public class VehicleManager {
 
         List<VehicleType> supportedVehicles = branch.getSupportedVehicles();
         VehicleType vehicleType = CommonUtils.parseVehicleType(vehicleTypeStr);
+        //check if the selected vehicle exists in branch
         if (Objects.isNull(vehicleType) || supportedVehicles.isEmpty()
                 || !supportedVehicles.contains(vehicleType)) {
             return false;
         }
 
+        //check if vehicle with the given ID already exists
         boolean vehicleExists  = branch.getVehicles().stream()
                 .anyMatch(vehicle -> vehicle.getVehicleId().equals(vehicleId));
 
@@ -71,25 +73,29 @@ public class VehicleManager {
 
         List<VehicleType> supportedVehicles = branch.getSupportedVehicles();
         VehicleType vehicleType = CommonUtils.parseVehicleType(vehicleTypeStr);
+        //check if the selected vehicle exists in branch
         if (Objects.isNull(vehicleType) || supportedVehicles.isEmpty()
                 || !supportedVehicles.contains(vehicleType)) {
             return -1;
         }
 
         List<Vehicle> vehicles = branch.getVehicles();
+        //check if any vehicle exists in branch that has free slot for the given time range
         Optional<Vehicle> optionalVehicle = vehicles.stream()
                 .filter(vehicle -> vehicleType.equals(vehicle.getVehicleType()))
                 .filter(vehicle -> isSlotAvailable(vehicle.getSlots(), startTime, endTime))
                 .min(Comparator.comparing(Vehicle::getPrice));
 
+        //if there is no vehicle exists in the given time range slot
         if (!optionalVehicle.isPresent()) {
             return -1;
         }
 
         Vehicle pickedVehicle = optionalVehicle.get();
         Slot slot = getNewSlot(startTime, endTime);
+        //book slot
         pickedVehicle.getSlots().add(slot);
-
+        //return the total expenditure
         return pickedVehicle.getPrice() * (endTime - startTime);
     }
 
