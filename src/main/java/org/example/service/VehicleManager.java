@@ -19,7 +19,7 @@ public class VehicleManager {
     }
 
     /***
-     *
+     * Adds a vehicle to the given branch
      * @param branchId
      * @param vehicleTypeStr
      * @param vehicleId
@@ -39,6 +39,12 @@ public class VehicleManager {
             return false;
         }
 
+        boolean vehicleExists  = branch.getVehicles().stream()
+                .anyMatch(vehicle -> vehicle.getVehicleId().equals(vehicleId));
+
+        if(vehicleExists) {
+            return false;
+        }
 
         Vehicle vehicle = Vehicle.getInstance(vehicleType);
         vehicle.setVehicleId(vehicleId);
@@ -50,7 +56,7 @@ public class VehicleManager {
     }
 
     /***
-     *
+     * Books a vehicle for the given slot
      * @param branchId
      * @param vehicleTypeStr
      * @param startTime
@@ -96,6 +102,13 @@ public class VehicleManager {
     }
 
 
+    /***
+     * Display vehicles sorted by price for the given branch
+     * @param branchId
+     * @param startTime
+     * @param endTime
+     * @return
+     */
     public List<String> displayVehicles(String branchId, int startTime, int endTime) {
         Branch branch = branchManager.getBranch(branchId);
         if (Objects.isNull(branch)) {

@@ -9,7 +9,7 @@ import java.util.List;
 @Data
 public class Branch {
     private String id;
-    private List<VehicleType> supportedVehicles;
+    private List<VehicleType> supportedVehicles = new ArrayList<>();
     private List<Vehicle> vehicles = new ArrayList<>();
 
 }
